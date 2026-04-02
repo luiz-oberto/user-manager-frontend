@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Usuário</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body onload="loadUser()">
+
+<div class="container mt-4">
+    <h2>Editar Usuário</h2>
+
+    <input id="nome" class="form-control mb-2">
+    <input id="email" class="form-control mb-2">
+
+    <button onclick="updateUser()" class="btn btn-primary">Salvar</button>
+    <button onclick="deleteUser()" class="btn btn-danger">Deletar</button>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/user.js"></script>
+</body>
+</html>
