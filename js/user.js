@@ -18,6 +18,12 @@ async function createUser() {
     const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
+    const confirmSenha = document.getElementById("confirmSenha").value;
+ 
+    if (senha !== confirmSenha) {
+        alert("As senhas não coincidem!");
+        return;
+    }
 
     await fetch(`${API_URL}/users/`, {
         method: "POST",
