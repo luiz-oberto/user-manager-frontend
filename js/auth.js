@@ -35,11 +35,36 @@ async function login() {
             return;
         }
 
-        localStorage.setItem("token", data.access_token);
+        const token = data.access_token;
 
-        console.log("Redirecionando...");
+        localStorage.setItem("token", token);
 
-        window.location.href = "dashboard.html";
+        // 🔥 decodificar o token
+        const payload = parseJwt(token);
+
+        console.log("Payload:", payload);
+
+        // 🔥 buscar dados do usuário (porque o token não tem is_superuser)
+        const responseUser = await fetch(`${API_URL}/users/${parseInt(payload.sub)}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const user = await responseUser.json();
+
+        console.log("Usuário:", user);
+
+        // 🔥 salvar dados úteis
+        localStorage.setItem("user_id", user.id_usuario);
+        localStorage.setItem("is_superuser", user.is_superuser);
+
+        // 🔥 redirecionamento correto
+        if (user.is_superuser) {
+            window.location.href = "dashboard.html";
+        } else {
+            window.location.href = "profile.html";
+        }
 
     } catch (error) {
         console.error("Erro geral:", error);
