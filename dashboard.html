@@ -13,29 +13,8 @@
 
 <div class="app-layout">
 
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <i class="bi bi-people-fill"></i>
-            <span>UserManager</span>
-        </div>
+    <aside class="sidebar" id="sidebar"></aside>
 
-        <nav class="sidebar-menu">
-            <a href="dashboard.html" class="menu-item active">
-                <i class="bi bi-grid-1x2-fill"></i>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="create.html" class="menu-item">
-                <i class="bi bi-person-plus-fill"></i>
-                <span>Novo Usuário</span>
-            </a>
-
-            <a href="profile.html" class="menu-item">
-                <i class="bi bi-person-circle"></i>
-                <span>Meu Perfil</span>
-            </a>
-        </nav>
-    </aside>
 
     <div class="main-wrapper">
         <header class="topbar">
@@ -87,6 +66,8 @@
     </div>
 </div>
 
+<script src="js/auth-utils.js"></script>
+<script src="js/layout.js"></script>
 <script src="js/api.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="js/alerts.js"></script>

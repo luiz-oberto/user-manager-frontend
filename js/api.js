@@ -26,17 +26,15 @@ function parseJwt(token) {
 }
 
 function checkSuperUserAccess() {
-    const token = getToken();
+    const user = getUserFromToken();
 
-    if (!token) {
+    if (!user) {
         window.location.href = "index.html";
         return false;
     }
 
-    const isSuper = localStorage.getItem("is_superuser");
-
-    if (isSuper !== "true") {
-        alert("Acesso restrito!");
+    if (!user.is_superuser) {
+        showWarning("Acesso restrito!");
         window.location.href = "profile.html";
         return false;
     }

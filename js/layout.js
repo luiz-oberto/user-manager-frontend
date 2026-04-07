@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.getElementById("sidebar");
   const topbar = document.getElementById("topbar");
+  const user = getUserFromToken();
+  
 
   const currentPage = window.location.pathname.split("/").pop();
 
@@ -13,25 +15,26 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <nav class="sidebar-nav">
-          <a href="dashboard.html" class="sidebar-link ${currentPage === "dashboard.html" ? "active" : ""}">
-            <i class="bi bi-grid-1x2-fill"></i>
-            <span>Dashboard</span>
-          </a>
 
-          <a href="users.html" class="sidebar-link ${currentPage === "users.html" ? "active" : ""}">
-            <i class="bi bi-person-lines-fill"></i>
-            <span>Usuários</span>
-          </a>
+          ${
+            user?.is_superuser ? `
+            <a href="dashboard.html" class="menu-item sidebar-link ${currentPage === "dashboard.html" ? "active" : ""}">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span>Dashboard</span>
+            </a>
 
-          <a href="create-user.html" class="sidebar-link ${currentPage === "create-user.html" ? "active" : ""}">
-            <i class="bi bi-person-plus-fill"></i>
-            <span>Criar usuário</span>
-          </a>
+            <a href="create.html" class="menu-item sidebar-link ${currentPage === "create-user.html" ? "active" : ""}">
+              <i class="bi bi-person-plus-fill"></i>
+              <span>Criar usuário</span>
+            </a>
+            ` : ""
+          }
 
-          <a href="profile.html" class="sidebar-link ${currentPage === "profile.html" ? "active" : ""}">
+          <a href="profile.html" class="menu-item sidebar-link ${currentPage === "profile.html" ? "active" : ""}">
             <i class="bi bi-person-circle"></i>
             <span>Meu perfil</span>
           </a>
+
         </nav>
       </div>
     `;

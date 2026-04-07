@@ -1,6 +1,7 @@
 function initDashboard() {
-    checkAuth();
-    checkSuperUserAccess();
+    if (!checkAuth()) return;
+    if (!checkSuperUserAccess()) return;
+
     loadUsers();
 }
 
