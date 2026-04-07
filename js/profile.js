@@ -1,36 +1,44 @@
 async function loadProfile() {
-    checkAuth();
+    if (!checkAuth()) return;
 
-    const userId = parseInt(localStorage.getItem("user_id"));
+    const userToken = getUserFromToken();
+    const userId = userToken?.sub;
 
     if (!userId) {
-        alert("Usuário não identificado");
+        showError("Usuário não identificado");
         return;
     }
 
-    const response = await fetch(`${API_URL}/users/${userId}`, {
-        headers: getHeaders()
-    });
+    try {
+        const response = await fetch(`${API_URL}/users/${userId}`, {
+            headers: getHeaders()
+        });
 
-    const user = await response.json();
+        if (!response.ok) {
+            throw new Error("Erro ao buscar usuário");
+        }
 
-    document.getElementById("profile").innerHTML = `
-        <p><strong>Nome:</strong> ${user.nome}</p>
-        <p><strong>Email:</strong> ${user.email}</p>
-    `;
+        const user = await response.json();
 
-    const isSuper = localStorage.getItem("is_superuser");
-
-    const actionDiv = document.getElementById("actionButton");
-
-    if (isSuper === "true") {
-        actionDiv.innerHTML = `
-            <a href="dashboard.html" class="btn btn-primary mt-3">Voltar</a>
+        document.getElementById("profile").innerHTML = `
+            <p><strong>Nome:</strong> ${user.nome}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
         `;
-    } else {
-        actionDiv.innerHTML = `
-            <button onclick="logout()" class="btn btn-danger mt-3">Sair</button>
-        `;
+
+        const actionDiv = document.getElementById("actionButton");
+
+        if (userToken.is_superuser) {
+            actionDiv.innerHTML = `
+                <a href="dashboard.html" class="btn btn-primary mt-3">Voltar</a>
+            `;
+        } else {
+            actionDiv.innerHTML = `
+                <button onclick="logout()" class="btn btn-danger mt-3">Sair</button>
+            `;
+        }
+
+    } catch (error) {
+        showError("Erro ao carregar perfil.");
     }
 }
 
