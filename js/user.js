@@ -11,16 +11,27 @@ function initEditPage() {
 async function loadUser() {
     if (!userId) return;
 
-    const response = await fetch(`${API_URL}/users/${userId}`, {
-        headers: getHeaders()
-    });
+    try {
+        const response = await fetch(`${API_URL}/users/${userId}`, {
+            headers: getHeaders()
+        });
 
-    const user = await response.json();
+        if (!response.ok) {
+            throw new Error("Erro ao carregar usuário");
+        }
 
-    document.getElementById("nome").value = user.nome;
-    document.getElementById("email").value = user.email;
+        const user = await response.json();
+
+        // guardar usuário completo
+        window.currentUser = user;
+
+        document.getElementById("nome").value = user.nome;
+        document.getElementById("email").value = user.email;
+
+    } catch (error) {
+        showError("Erro ao carregar dados do usuário.");
+    }
 }
-
 async function createUser() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -52,11 +63,13 @@ async function updateUser() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
 
+    const is_superuser = window.currentUser?.is_superuser || false;
+
     try {
         const response = await fetch(`${API_URL}/users/${userId}`, {
             method: "PUT",
             headers: getHeaders(),
-            body: JSON.stringify({ nome, email })
+            body: JSON.stringify({ nome, email, is_superuser })
         });
 
         if (!response.ok) {
