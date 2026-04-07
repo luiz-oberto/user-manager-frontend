@@ -22,58 +22,72 @@ async function loadUser() {
 }
 
 async function createUser() {
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    // const confirmSenha = document.getElementById("confirmSenha").value;
-    // console.log("senha:", senha)
-    // console.log("confirm:", confirmSenha)
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value.trim();
 
- 
-    // if (senha !== confirmSenha) {
-    //     alert("As senhas não coincidem!");
-    //     return;
-    // }
+    try {
+        const response = await fetch(`${API_URL}/users/`, {
+            method: "POST",
+            headers: getHeaders(),
+            body: JSON.stringify({ nome, email, senha })
+        });
 
-    // if (!senha || !confirmSenha) {
-    //     alert("Preencha a senha corretamente");
-    //     return;
-    // }
+        if (!response.ok) {
+            throw new Error("Erro ao criar usuário");
+        }
 
-    // if (senha.length < 6) {
-    //     alert("Senha muito curta");
-    //     return;
-    // }
+        showSuccess("Usuário criado com sucesso!");
 
-    await fetch(`${API_URL}/users/`, {
-        method: "POST",
-        headers: getHeaders(),
-        body: JSON.stringify({ nome, email, senha })
-    });
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 1200);
 
-    alert("Usuário criado!");
-    window.location.href = "dashboard.html";
+    } catch (error) {
+        showError("Erro ao criar usuário.");
+    }
 }
 
 async function updateUser() {
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
 
-    await fetch(`${API_URL}/users/${userId}`, {
-        method: "PUT",
-        headers: getHeaders(),
-        body: JSON.stringify({ nome, email })
-    });
+    try {
+        const response = await fetch(`${API_URL}/users/${userId}`, {
+            method: "PUT",
+            headers: getHeaders(),
+            body: JSON.stringify({ nome, email })
+        });
 
-    alert("Atualizado!");
+        if (!response.ok) {
+            throw new Error("Erro ao atualizar");
+        }
+
+        showSuccess("Usuário atualizado com sucesso!");
+
+    } catch (error) {
+        showError("Erro ao atualizar usuário.");
+    }
 }
 
 async function deleteUser() {
-    await fetch(`${API_URL}/users/${userId}`, {
-        method: "DELETE",
-        headers: getHeaders()
-    });
+    try {
+        const response = await fetch(`${API_URL}/users/${userId}`, {
+            method: "DELETE",
+            headers: getHeaders()
+        });
 
-    alert("Deletado!");
-    window.location.href = "dashboard.html";
+        if (!response.ok) {
+            throw new Error("Erro ao deletar");
+        }
+
+        showSuccess("Usuário deletado!");
+
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 1200);
+
+    } catch (error) {
+        showError("Erro ao deletar usuário.");
+    }
 }

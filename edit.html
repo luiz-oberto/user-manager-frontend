@@ -1,23 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Editar Usuário</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuário</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body onload="initEditPage()">
 
-<div class="container mt-4">
-    <h2>Editar Usuário</h2>
+<div class="app-layout">
 
-    <input id="nome" class="form-control mb-2">
-    <input id="email" class="form-control mb-2">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <i class="bi bi-people-fill"></i>
+            <span>UserManager</span>
+        </div>
 
-    <button onclick="updateUser()" class="btn btn-primary">Salvar</button>
-    <button onclick="deleteUser()" class="btn btn-danger">Deletar</button>
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="bi bi-grid-1x2-fill"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="create.html" class="menu-item">
+                <i class="bi bi-person-plus-fill"></i>
+                <span>Novo Usuário</span>
+            </a>
+
+            <a href="profile.html" class="menu-item">
+                <i class="bi bi-person-circle"></i>
+                <span>Meu Perfil</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main-wrapper">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h4 class="mb-0">Editar Usuário</h4>
+            </div>
+
+            <div class="topbar-right">
+                <button onclick="logout()" class="btn btn-logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <main class="page-content">
+
+            <div class="page-header mb-4">
+                <h2 class="page-title">Editar usuário</h2>
+                <p class="page-subtitle">Atualize os dados do usuário ou remova-o do sistema.</p>
+            </div>
+
+            <div class="content-card">
+
+                <form id="editUserForm">
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Nome</label>
+                            <input id="nome" class="form-control" placeholder="Nome do usuário">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input id="email" class="form-control" placeholder="Email do usuário">
+                        </div>
+
+                    </div>
+
+                    <!-- AÇÕES -->
+                    <div class="mt-4 d-flex flex-wrap gap-3 justify-content-between">
+
+                        <div class="d-flex gap-3">
+                            <button type="button" onclick="updateUser()" class="btn btn-primary-soft">
+                                <i class="bi bi-check-lg"></i> Salvar alterações
+                            </button>
+
+                            <a href="dashboard.html" class="btn btn-light border">
+                                Cancelar
+                            </a>
+                        </div>
+
+                        <button type="button" onclick="confirmDelete()" class="btn btn-outline-danger">
+                            <i class="bi bi-trash"></i> Deletar usuário
+                        </button>
+
+                    </div>
+                </form>
+
+            </div>
+
+        </main>
+    </div>
 </div>
+
+<!-- ALERT -->
+<div id="alertContainer" class="alert-container"></div>
 
 <script src="js/api.js"></script>
 <script src="js/user.js"></script>
+<script src="js/alerts.js"></script>
+
+<script>
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "index.html";
+}
+
+/* confirmação antes de deletar */
+function confirmDelete() {
+    if (confirm("Tem certeza que deseja deletar este usuário?")) {
+        deleteUser();
+    }
+}
+</script>
+
 </body>
 </html>

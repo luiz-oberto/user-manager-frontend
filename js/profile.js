@@ -41,3 +41,26 @@ function logout() {
 
     window.location.href = "index.html";
 }
+
+function renderProfile(user) {
+    const container = document.getElementById("profile");
+
+    container.innerHTML = `
+        <div class="profile-item">
+            <div class="profile-label">Nome</div>
+            <div class="profile-value">${user.nome}</div>
+        </div>
+
+        <div class="profile-item">
+            <div class="profile-label">Email</div>
+            <div class="profile-value">${user.email}</div>
+        </div>
+
+        <div class="profile-item">
+            <div class="profile-label">Perfil</div>
+            <div class="profile-value">
+                ${user.is_superuser ? "Superusuário" : "Usuário comum"}
+            </div>
+        </div>
+    `;
+}

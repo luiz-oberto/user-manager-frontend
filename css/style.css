@@ -164,3 +164,109 @@ body {
 .btn-primary-soft:hover {
     opacity: 0.95;
 }
+
+/* ALERTS */
+
+.alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.custom-alert {
+    min-width: 260px;
+    max-width: 320px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: slideIn 0.3s ease;
+}
+
+/* TIPOS */
+.alert-success { background: #10b981; }
+.alert-error   { background: #ef4444; }
+.alert-warning { background: #f59e0b; }
+.alert-info    { background: #3b82f6; }
+
+/* BOTÃO FECHAR */
+.alert-close {
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+/* ANIMAÇÃO */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* PROFILE */
+
+.profile-box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.profile-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.profile-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* LOGIN PAGE */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #eef2ff, #f8fafc);
+    padding: 20px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 380px;
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    padding: 32px;
+}
+
+.auth-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.auth-subtitle {
+    color: var(--text-muted);
+    margin-top: 4px;
+}
