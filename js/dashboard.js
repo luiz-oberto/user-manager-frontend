@@ -23,7 +23,11 @@ async function loadUsers() {
                 <td>${user.nome}</td>
                 <td>${user.email}</td>
                 <td>
-                    <a href="edit.html?id=${user.id_usuario}" class="btn btn-sm btn-warning">Editar</a>
+                    <div class="d-flex justify-content-end">
+                        <a href="edit.html?id=${user.id_usuario}" class="btn btn-sm btn-outline-primary">
+                            Editar
+                        </a>
+                    </div>
                 </td>
             </tr>
         `;
