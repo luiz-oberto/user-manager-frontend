@@ -1,4 +1,4 @@
-const API_URL = "http://32.192.219.170:8000"; // alterar para /api quando estiver com nginx funcionando
+const API_URL = "/api"; // utilizar http://IP_DA_API:8000 em caso de ambiente de testes
 
 function getToken() {
     return localStorage.getItem("token");

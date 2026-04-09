@@ -19,12 +19,60 @@ Ele consome a API do projeto:
 
 ## 🧱 Tecnologias Utilizadas
 
-* HTML5
-* CSS3
-* Bootstrap 5
-* JavaScript (Vanilla)
+* HTML5  
+* CSS3  
+* Bootstrap 5  
+* JavaScript (Vanilla)  
+* Nginx (Reverse Proxy)  
+* Docker (Backend)  
+* PostgreSQL  
+* HTTPS com Let's Encrypt  
+* AWS EC2  
 
 ---
+## 🧩 Arquitetura do Sistema
+
+O sistema segue um modelo de arquitetura baseado em **proxy reverso**, com isolamento de serviços.
+
+```text
+Client (Browser)
+      ↓ HTTPS (443)
+Nginx (Reverse Proxy)
+      ↓ HTTP (internal)
+FastAPI (Docker)
+      ↓
+PostgreSQL
+
+```
+
+## 🔐 Características da arquitetura:
+* O frontend é servido via Nginx
+* A API não é exposta diretamente à internet
+* O banco de dados é acessível apenas pela API
+* Comunicação externa criptografada via HTTPS
+* Comunicação interna isolada (rede local)
+
+## 🖼️ Página de Arquitetura
+
+O sistema possui uma página dedicada à visualização da arquitetura:
+
+👉 **architecture.html**
+
+Essa página apresenta:
+
+* Diagrama da arquitetura
+* Tecnologias utilizadas
+* Fluxo da aplicação
+* Camadas de segurança
+
+## 🔐 Segurança Implementada
+* 🔒 HTTPS com certificado válido (Let's Encrypt)
+* 🔁 Redirecionamento automático HTTP → HTTPS
+* 🛡️ API protegida atrás de proxy reverso (Nginx)
+* 🔐 Autenticação via JWT
+* 🚫 API não exposta diretamente
+* 🗄️ Banco de dados isolado
+* 🌐 CORS restrito (backend)
 
 ## 🔐 Funcionalidades
 
@@ -67,12 +115,16 @@ frontend/
 ├── profile.html      # Perfil do usuário
 ├── create.html       # Criar usuário
 ├── edit.html         # Editar usuário
+├── architecture.html   # Página de arquitetura
 │
 ├── js/
-│   ├── api.js        # Configuração da API e utilitários
+│   ├── api.js        # Configuração da API
 │   ├── auth.js       # Login e autenticação
+│   ├── auth-utils.js # Resgata o token se sessão
 │   ├── dashboard.js  # Lógica do dashboard
 │   ├── profile.js    # Perfil do usuário
+│   ├── alerts.js     # Mensagens e alertas
+│   ├── layout.js     # layout de menus via js
 │   └── user.js       # CRUD de usuários
 │
 └── css/
@@ -82,14 +134,23 @@ frontend/
 
 ## ⚙️ Configuração
 
-### 🔹 Definir URL da API
+### 🔹 API (IMPORTANTE)
 
 No arquivo `js/api.js`, configure:
 
 ```javascript id="izptbw"
-const API_URL = "http://IP_DA_API:8000";
+const API_URL = "/api";
+```
+O Nginx é responsável por redirecionar:
+
+```bash
+/api → http://127.0.0.1:8000
 ```
 
+se precisar testar a API em ambiente de teste basta utilizar:
+```javascript id="izptbw"
+const API_URL = "http://IP_API:8000";
+```
 ---
 
 ## 🧪 Execução do Projeto
@@ -105,6 +166,19 @@ Acessar:
 
 ```id="u8n0kq"
 http://localhost:5500
+```
+---
+## 🚀 Deploy (Produção)
+
+O sistema foi projetado para rodar com:
+
+* Nginx servindo frontend
+* Proxy reverso para API
+* HTTPS com Let's Encrypt
+
+### 🔹 Fluxo real:
+```
+Client → HTTPS → Nginx → API interna → Banco
 ```
 
 ---
@@ -135,6 +209,10 @@ Verificação de perfil
 ---
 
 ## ⚠️ CORS
+No backend
+```python id="2d4g6p"
+allow_origins=["https://usermanager.servehttp.com"]
+```
 
 Durante o desenvolvimento, a API deve permitir requisições externas (CORS):
 
@@ -152,18 +230,21 @@ allow_origins=["*"]
 * Inicialização controlada (`initPage`)
 * Proteção de rotas no frontend
 * Consumo de API via Fetch
-* Armazenamento de sessão com localStorage
+* Uso de proxy reverso (Nginx)
+* Isolamento de serviços
+* Arquitetura baseada em camadas
 
 ---
 
 ## 🎯 Melhorias Futuras
 
-* 🎨 Melhorias de UI/UX
+* 🔐 Implementar HSTS
+* 🛡️ Content Security Policy (CSP)
+* ⚡ Rate limiting no Nginx
 * 📊 Paginação e busca no dashboard
-* 🔐 Refresh token / expiração de sessão
-* 🌐 Deploy com Nginx
-* 🔒 Implementação de HTTPS
-* 📱 Responsividade aprimorada
+* 🔄 Refresh token
+* 📱 Melhor responsividade
+* 📈 Monitoramento e logs
 
 ---
 
@@ -179,7 +260,7 @@ Certifique-se de que a API esteja rodando antes de utilizar o sistema.
 
 ## 📄 Licença
 
-Projeto acadêmico para fins de estudo.
+Projeto acadêmico com evolução para arquitetura de produção.
 
 ---
 
@@ -192,9 +273,12 @@ Experiência em desenvolvimento de APIs, automação e infraestrutura.
 Projeto desenvolvido para aprendizado de:
 
 * Integração frontend/backend
-* Autenticação com JWT
 * Controle de acesso
 * Consumo de APIs REST
+* APIs REST (FastAPI)
+* Infraestrutura (AWS, Nginx, Docker)
+* Autenticação e segurança (JWT, HTTPS)
+* Arquitetura de sistemas
 
 🔗 LinkedIn: https://www.linkedin.com/in/luiz-oberto-matos-raiol-217038283/
 
