@@ -35,6 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <span>Meu perfil</span>
           </a>
 
+          <a href="architecture.html" class="menu-item">
+              <i class="bi bi-diagram-3-fill"></i>
+              <span>Arquitetura</span>
+          </a>
+
         </nav>
       </div>
     `;

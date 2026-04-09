@@ -270,3 +270,18 @@ body {
     color: var(--text-muted);
     margin-top: 4px;
 }
+
+/* ARQUITETURA */
+.content-card i {
+    color: var(--primary-color);
+    margin-right: 6px;
+}
+
+.content-card ul li {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+.content-card p {
+    color: var(--text-muted);
+}
