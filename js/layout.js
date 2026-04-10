@@ -196,5 +196,5 @@ function fillLoggedUserName() {
 
     if (!user || !nameEl) return;
 
-    nameEl.textContent = user.nome || user.sub || "Usuário";
+    nameEl.textContent = user.nome || "Usuário";
 }
