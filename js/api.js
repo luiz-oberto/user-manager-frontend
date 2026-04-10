@@ -37,7 +37,6 @@ function checkSuperUserAccess() {
     }
 
     if (!user.is_superuser) {
-        showWarning("Acesso restrito!");
         window.location.href = "profile.html";
         return false;
     }
