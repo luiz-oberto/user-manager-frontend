@@ -1,4 +1,4 @@
-export function getUserFromToken() {
+function getUserFromToken() {
     const token = localStorage.getItem("token");
     if (!token) return null;
 
@@ -9,12 +9,12 @@ export function getUserFromToken() {
     }
 }
 
-export function logout() {
+function logout() {
     localStorage.removeItem("token");
     window.location.href = "index.html";
 }
 
-export function initAuthEvents() {
+function initAuthEvents() {
     document.querySelectorAll("#logoutBtn, .logoutBtn").forEach(btn => {
         btn.addEventListener("click", logout);
     });
