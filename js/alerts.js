@@ -1,4 +1,4 @@
-export function showAlert(message, type = "info", duration = 3000) {
+function showAlert(message, type = "info", duration = 3000) {
     const container = document.getElementById("alertContainer");
     if (!container) return;
 
@@ -28,7 +28,9 @@ export function showAlert(message, type = "info", duration = 3000) {
     }, duration);
 }
 
-export const showSuccess = (msg) => showAlert(msg, "success");
-export const showError = (msg) => showAlert(msg, "error");
-export const showWarning = (msg) => showAlert(msg, "warning");
-export const showInfo = (msg) => showAlert(msg, "info");
+/* atalhos */
+
+const showSuccess = (msg) => showAlert(msg, "success");
+const showError = (msg) => showAlert(msg, "error");
+const showWarning = (msg) => showAlert(msg, "warning");
+const showInfo = (msg) => showAlert(msg, "info");
