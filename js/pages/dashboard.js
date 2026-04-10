@@ -1,12 +1,30 @@
-async function loadUsers() {
+document.addEventListener("DOMContentLoaded", () => {
     if (!checkAuth()) return;
+    if (!checkSuperUserAccess()) return;
 
-    const response = await fetch(`${API_URL}/users/`, {
-        headers: getHeaders()
-    });
+    loadUsers();
+});
 
-    const users = await response.json();
+/* =========================
+   LOAD USERS
+========================= */
+
+async function loadUsers() {
+    try {
+        const users = await fetchUsers(); // 🔥 agora usa service
+        renderUsers(users);
+    } catch (error) {
+        showError(error.message || "Erro ao carregar usuários.");
+    }
+}
+
+/* =========================
+   RENDER
+========================= */
+
+function renderUsers(users) {
     const table = document.getElementById("userTable");
+    if (!table) return;
 
     table.innerHTML = "";
 
@@ -20,17 +38,14 @@ async function loadUsers() {
         emailTd.textContent = user.email;
 
         const actionTd = document.createElement("td");
-
-        const div = document.createElement("div");
-        div.className = "d-flex justify-content-end";
+        actionTd.className = "text-end";
 
         const link = document.createElement("a");
         link.href = `edit.html?id=${user.id_usuario}`;
         link.className = "btn btn-sm btn-outline-primary";
         link.textContent = "Editar";
 
-        div.appendChild(link);
-        actionTd.appendChild(div);
+        actionTd.appendChild(link);
 
         tr.appendChild(nomeTd);
         tr.appendChild(emailTd);
