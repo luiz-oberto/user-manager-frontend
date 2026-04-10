@@ -1,10 +1,10 @@
 const API_URL = "/api";
 
-export function getToken() {
+function getToken() {
     return localStorage.getItem("token");
 }
 
-export function getHeaders() {
+function getHeaders() {
     const token = getToken();
     return {
         "Content-Type": "application/json",
@@ -12,7 +12,7 @@ export function getHeaders() {
     };
 }
 
-export function checkAuth() {
+function checkAuth() {
     if (!getToken()) {
         window.location.href = "index.html";
         return false;
@@ -20,7 +20,7 @@ export function checkAuth() {
     return true;
 }
 
-export function parseJwt(token) {
+function parseJwt(token) {
     try {
         return JSON.parse(atob(token.split('.')[1]));
     } catch {
@@ -28,7 +28,7 @@ export function parseJwt(token) {
     }
 }
 
-export function checkSuperUserAccess() {
+function checkSuperUserAccess() {
     const user = getUserFromToken();
 
     if (!user) {
