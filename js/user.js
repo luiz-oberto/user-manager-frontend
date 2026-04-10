@@ -1,21 +1,16 @@
-let currentUser = null;
-
-/* =========================
-   INIT EDIT PAGE
-========================= */
-
-function initEditPage() {
-    if (!checkAuth()) return;
-    if (!checkSuperUserAccess()) return;
-
-    loadUser();
+function getUserId() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("id");
 }
+
+let currentUser = null;
 
 /* =========================
    LOAD USER
 ========================= */
 
 async function loadUser() {
+    const userId = getUserId();
     if (!userId) return;
 
     try {
@@ -73,7 +68,7 @@ async function updateUser() {
     const email = document.getElementById("email").value.trim();
 
     try {
-        await updateUserRequest(userId, {
+        await updateUserRequest(getUserId(), {
             nome,
             email,
             is_superuser: currentUser?.is_superuser || false
@@ -92,7 +87,7 @@ async function updateUser() {
 
 async function deleteUser() {
     try {
-        await deleteUserRequest(userId);
+        await deleteUserRequest(getUserId());
 
         showSuccess("Usuário deletado!");
 
@@ -117,6 +112,11 @@ function validateUser({ nome, email, senha }) {
 
     if (!email.includes("@")) {
         showWarning("Email inválido.");
+        return false;
+    }
+
+    if (!senha || senha.length < 4) {
+        showWarning("Senha deve ter pelo menos 4 caracteres.");
         return false;
     }
 
