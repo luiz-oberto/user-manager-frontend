@@ -1,5 +1,8 @@
-const params = new URLSearchParams(window.location.search);
-const userId = params.get("id");
+let currentUser = null;
+
+/* =========================
+   INIT EDIT PAGE
+========================= */
 
 function initEditPage() {
     if (!checkAuth()) return;
@@ -8,45 +11,47 @@ function initEditPage() {
     loadUser();
 }
 
+/* =========================
+   LOAD USER
+========================= */
+
 async function loadUser() {
     if (!userId) return;
 
     try {
-        const response = await fetch(`${API_URL}/users/${userId}`, {
-            headers: getHeaders()
-        });
+        const user = await getUserById(userId);
 
-        if (!response.ok) {
-            throw new Error("Erro ao carregar usuário");
-        }
+        currentUser = user;
 
-        const user = await response.json();
+        fillUserForm(user);
 
-        // guardar usuário completo
-        window.currentUser = user;
-
-        document.getElementById("nome").value = user.nome;
-        document.getElementById("email").value = user.email;
-
-    } catch (error) {
+    } catch {
         showError("Erro ao carregar dados do usuário.");
     }
 }
+
+/* =========================
+   UI
+========================= */
+
+function fillUserForm(user) {
+    document.getElementById("nome").value = user.nome;
+    document.getElementById("email").value = user.email;
+}
+
+/* =========================
+   CREATE
+========================= */
+
 async function createUser() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("senha").value.trim();
 
-    try {
-        const response = await fetch(`${API_URL}/users/`, {
-            method: "POST",
-            headers: getHeaders(),
-            body: JSON.stringify({ nome, email, senha })
-        });
+    if (!validateUser({ nome, email, senha })) return;
 
-        if (!response.ok) {
-            throw new Error("Erro ao criar usuário");
-        }
+    try {
+        await createUserRequest({ nome, email, senha });
 
         showSuccess("Usuário criado com sucesso!");
 
@@ -55,26 +60,24 @@ async function createUser() {
         }, 1200);
 
     } catch (error) {
-        showError("Erro ao criar usuário.");
+        showError(error.message || "Erro ao criar usuário.");
     }
 }
+
+/* =========================
+   UPDATE
+========================= */
 
 async function updateUser() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
 
-    const is_superuser = window.currentUser?.is_superuser || false;
-
     try {
-        const response = await fetch(`${API_URL}/users/${userId}`, {
-            method: "PUT",
-            headers: getHeaders(),
-            body: JSON.stringify({ nome, email, is_superuser })
+        await updateUserRequest(userId, {
+            nome,
+            email,
+            is_superuser: currentUser?.is_superuser || false
         });
-
-        if (!response.ok) {
-            throw new Error("Erro ao atualizar");
-        }
 
         showSuccess("Usuário atualizado com sucesso!");
 
@@ -83,16 +86,13 @@ async function updateUser() {
     }
 }
 
+/* =========================
+   DELETE
+========================= */
+
 async function deleteUser() {
     try {
-        const response = await fetch(`${API_URL}/users/${userId}`, {
-            method: "DELETE",
-            headers: getHeaders()
-        });
-
-        if (!response.ok) {
-            throw new Error("Erro ao deletar");
-        }
+        await deleteUserRequest(userId);
 
         showSuccess("Usuário deletado!");
 
@@ -100,7 +100,25 @@ async function deleteUser() {
             window.location.href = "dashboard.html";
         }, 1200);
 
-    } catch (error) {
+    } catch {
         showError("Erro ao deletar usuário.");
     }
+}
+
+/* =========================
+   VALIDATION
+========================= */
+
+function validateUser({ nome, email, senha }) {
+    if (!nome || !email) {
+        showWarning("Nome e email são obrigatórios.");
+        return false;
+    }
+
+    if (!email.includes("@")) {
+        showWarning("Email inválido.");
+        return false;
+    }
+
+    return true;
 }

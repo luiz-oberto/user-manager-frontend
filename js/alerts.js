@@ -1,23 +1,26 @@
-function showAlert(message, type = "info", duration = 3000) {
+export function showAlert(message, type = "info", duration = 3000) {
     const container = document.getElementById("alertContainer");
     if (!container) return;
 
     const alert = document.createElement("div");
     alert.className = `custom-alert alert-${type}`;
 
-    alert.innerHTML = `
-        <span>${message}</span>
-        <span class="alert-close">&times;</span>
-    `;
+    const messageSpan = document.createElement("span");
+    messageSpan.textContent = message;
 
-    // botão fechar
-    alert.querySelector(".alert-close").onclick = () => {
+    const closeBtn = document.createElement("span");
+    closeBtn.className = "alert-close";
+    closeBtn.innerHTML = "&times;";
+
+    closeBtn.addEventListener("click", () => {
         alert.remove();
-    };
+    });
+
+    alert.appendChild(messageSpan);
+    alert.appendChild(closeBtn);
 
     container.appendChild(alert);
 
-    // auto remove
     setTimeout(() => {
         alert.style.opacity = "0";
         alert.style.transform = "translateX(30px)";
@@ -25,20 +28,7 @@ function showAlert(message, type = "info", duration = 3000) {
     }, duration);
 }
 
-/* atalhos */
-
-function showSuccess(msg) {
-    showAlert(msg, "success");
-}
-
-function showError(msg) {
-    showAlert(msg, "error");
-}
-
-function showWarning(msg) {
-    showAlert(msg, "warning");
-}
-
-function showInfo(msg) {
-    showAlert(msg, "info");
-}
+export const showSuccess = (msg) => showAlert(msg, "success");
+export const showError = (msg) => showAlert(msg, "error");
+export const showWarning = (msg) => showAlert(msg, "warning");
+export const showInfo = (msg) => showAlert(msg, "info");

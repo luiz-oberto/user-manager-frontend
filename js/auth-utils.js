@@ -1,4 +1,4 @@
-function getUserFromToken() {
+export function getUserFromToken() {
     const token = localStorage.getItem("token");
     if (!token) return null;
 
@@ -9,25 +9,15 @@ function getUserFromToken() {
     }
 }
 
-function logout() {
+export function logout() {
     localStorage.removeItem("token");
     window.location.href = "index.html";
 }
 
-function initAuthEvents() {
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", logout);
-    }
-
-    const logoutButtons = document.querySelectorAll(".logoutBtn");
-
-    logoutButtons.forEach(btn => {
+export function initAuthEvents() {
+    document.querySelectorAll("#logoutBtn, .logoutBtn").forEach(btn => {
         btn.addEventListener("click", logout);
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    initAuthEvents();
-});
+document.addEventListener("DOMContentLoaded", initAuthEvents);

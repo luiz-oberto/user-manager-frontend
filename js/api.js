@@ -1,17 +1,18 @@
-const API_URL = "/api"; // utilizar http://IP_DA_API:8000 em caso de ambiente de testes
+const API_URL = "/api";
 
-function getToken() {
+export function getToken() {
     return localStorage.getItem("token");
 }
 
-function getHeaders() {
+export function getHeaders() {
+    const token = getToken();
     return {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getToken()}`
+        ...(token && { "Authorization": `Bearer ${token}` })
     };
 }
 
-function checkAuth() {
+export function checkAuth() {
     if (!getToken()) {
         window.location.href = "index.html";
         return false;
@@ -19,13 +20,15 @@ function checkAuth() {
     return true;
 }
 
-function parseJwt(token) {
-    const base64Url = token.split('.')[1];
-    const base64 = atob(base64Url);
-    return JSON.parse(base64);
+export function parseJwt(token) {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch {
+        return null;
+    }
 }
 
-function checkSuperUserAccess() {
+export function checkSuperUserAccess() {
     const user = getUserFromToken();
 
     if (!user) {
