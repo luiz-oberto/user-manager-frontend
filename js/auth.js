@@ -1,19 +1,17 @@
 let isLoading = false;
 
 async function login() {
-    if (isLoading) return; // evita múltiplos cliques
+    if (isLoading) return;
 
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("senha").value.trim();
-    const btn = document.querySelector("button");
+    const btn = document.getElementById("loginBtn");
 
-    // 🔹 validação básica
     if (!email || !senha) {
         showWarning("Preencha todos os campos.");
         return;
     }
 
-    // 🔹 validação simples de email
     if (!email.includes("@")) {
         showWarning("Informe um email válido.");
         return;
@@ -22,10 +20,8 @@ async function login() {
     try {
         isLoading = true;
 
-        // 🔹 estado de loading
         btn.disabled = true;
-        const originalText = btn.innerText;
-        btn.innerText = "Entrando...";
+        btn.textContent = "Entrando...";
 
         const response = await fetch(`${API_URL}/token`, {
             method: "POST",
@@ -39,7 +35,7 @@ async function login() {
         });
 
         if (!response.ok) {
-            throw new Error("Credenciais inválidas");
+            throw new Error();
         }
 
         const data = await response.json();
@@ -51,21 +47,26 @@ async function login() {
             window.location.href = "dashboard.html";
         }, 800);
 
-    } catch (error) {
+    } catch {
         showError("Email ou senha inválidos.");
     } finally {
-        // 🔹 volta estado do botão
         isLoading = false;
         btn.disabled = false;
-        btn.innerText = "Entrar";
+        btn.textContent = "Entrar";
     }
 }
 
-/* 🔥 ENTER PARA LOGAR */
+/* =========================
+   INIT
+========================= */
+
 document.addEventListener("DOMContentLoaded", () => {
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            login();
-        }
+    const form = document.getElementById("loginForm");
+
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault(); // evita reload da página
+        login();
     });
 });

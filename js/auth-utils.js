@@ -15,19 +15,9 @@ function logout() {
 }
 
 function initAuthEvents() {
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", logout);
-    }
-
-    const logoutButtons = document.querySelectorAll(".logoutBtn");
-
-    logoutButtons.forEach(btn => {
+    document.querySelectorAll("#logoutBtn, .logoutBtn").forEach(btn => {
         btn.addEventListener("click", logout);
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    initAuthEvents();
-});
+document.addEventListener("DOMContentLoaded", initAuthEvents);

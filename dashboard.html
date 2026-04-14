@@ -5,45 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- CSS -->
     <link href="css/style.css" rel="stylesheet">
 </head>
-<body onload="initDashboard()">
+<body>
 
 <div class="app-layout">
 
-    <aside class="sidebar" id="sidebar"></aside>
+    <!-- SIDEBAR -->
+    <aside id="sidebar"></aside>
 
-
+    <!-- MAIN -->
     <div class="main-wrapper">
-        <header class="topbar">
-            <div class="topbar-left">
-                <h4 class="mb-0">Painel de Usuários</h4>
-            </div>
 
-            <div class="topbar-right">
-                <div class="search-box">
-                    <i class="bi bi-search"></i>
-                    <input type="text" placeholder="Pesquisar usuário...">
-                </div>
+        <!-- TOPBAR -->
+        <header id="topbar"></header>
 
-                <button onclick="logout()" class="btn btn-logout">
-                    <i class="bi bi-box-arrow-right"></i>
-                    Sair
-                </button>
-            </div>
-        </header>
-
+        <!-- CONTENT -->
         <main class="page-content">
+
             <div class="page-header mb-4">
                 <h2 class="page-title">Usuários</h2>
-                <p class="page-subtitle">Gerencie os usuários cadastrados no sistema.</p>
+                <p class="page-subtitle">
+                    Gerencie os usuários cadastrados no sistema.
+                </p>
             </div>
 
             <div class="content-card">
                 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                     <h5 class="mb-0">Lista de usuários</h5>
+
                     <a href="create.html" class="btn btn-primary-soft">
                         <i class="bi bi-plus-lg"></i> Novo Usuário
                     </a>
@@ -62,23 +59,22 @@
                     </table>
                 </div>
             </div>
+
         </main>
     </div>
 </div>
 
+<!-- ALERTS -->
+<div id="alertContainer" class="alert-container"></div>
+
+<!-- JS (ordem correta) -->
+<script src="js/api.js"></script>
+<script src="js/alerts.js"></script>
 <script src="js/auth-utils.js"></script>
 <script src="js/layout.js"></script>
-<script src="js/api.js"></script>
-<script src="js/dashboard.js"></script>
-<script src="js/alerts.js"></script>
-<script>
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "index.html";
-}
-</script>
-
-<div id="alertContainer" class="alert-container"></div>
+<script src="js/userService.js"></script>
+<script src="js/pages/dashboard.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

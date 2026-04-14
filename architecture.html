@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arquitetura</title>
 
-    <!-- Bootstrap LOCAL -->
+    <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
+    <!-- Icons -->
     <link href="css/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- CSS do projeto -->
+    <!-- CSS -->
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -19,33 +19,17 @@
 <div class="app-layout d-flex">
 
     <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar"></aside>
+    <aside id="sidebar"></aside>
 
     <!-- MAIN -->
     <div class="main-wrapper flex-grow-1">
 
-        <!-- TOPBAR -->
-        <header class="topbar d-flex justify-content-between align-items-center flex-wrap gap-2 p-3">
-
-            <div class="topbar-left">
-                <h5 class="mb-0">Arquitetura do Sistema</h5>
-            </div>
-
-            <div class="topbar-right">
-                <!-- ❌ remove onclick -->
-                <!-- ✅ usa classe -->
-                <button class="btn btn-logout logoutBtn">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span class="d-none d-sm-inline">Sair</span>
-                </button>
-            </div>
-
-        </header>
+        <!-- TOPBAR (controlada pelo layout.js) -->
+        <header id="topbar"></header>
 
         <!-- CONTENT -->
         <main class="page-content container-fluid py-3">
 
-            <!-- HEADER -->
             <div class="page-header mb-4 text-center text-md-start">
                 <h2 class="page-title">User Manager Architecture</h2>
                 <p class="page-subtitle">
@@ -53,7 +37,6 @@
                 </p>
             </div>
 
-            <!-- DIAGRAMA -->
             <div class="content-card mb-4 text-center p-3">
                 <h5 class="mb-3">
                     <i class="bi bi-diagram-3"></i> Diagrama da Arquitetura
@@ -66,10 +49,8 @@
                 >
             </div>
 
-            <!-- GRID -->
             <div class="row g-3">
 
-                <!-- TECNOLOGIAS -->
                 <div class="col-12 col-md-6">
                     <div class="content-card h-100 p-3">
                         <h5 class="mb-3">
@@ -77,7 +58,7 @@
                         </h5>
                         <ul class="list-unstyled mb-0">
                             <li><i class="bi bi-check-circle"></i> FastAPI</li>
-                            <li><i class="bi bi-check-circle"></i> Token JWT</li>
+                            <li><i class="bi bi-check-circle"></i> JWT</li>
                             <li><i class="bi bi-check-circle"></i> OAuth2</li>
                             <li><i class="bi bi-check-circle"></i> PostgreSQL</li>
                             <li><i class="bi bi-check-circle"></i> Nginx</li>
@@ -88,40 +69,35 @@
                     </div>
                 </div>
 
-                <!-- FLUXO -->
                 <div class="col-12 col-md-6">
                     <div class="content-card h-100 p-3">
                         <h5 class="mb-3">
                             <i class="bi bi-arrow-left-right"></i> Fluxo
                         </h5>
-                        <p class="mb-0 text-break">
+                        <p class="mb-0">
                             Cliente → HTTPS → Nginx → API → Banco de Dados
                         </p>
                     </div>
                 </div>
 
-                <!-- ARQUITETURA -->
                 <div class="col-12 col-md-6">
                     <div class="content-card h-100 p-3">
                         <h5 class="mb-3">
                             <i class="bi bi-hdd-network"></i> Arquitetura
                         </h5>
                         <p class="mb-0">
-                            O Nginx atua como proxy reverso, servindo o frontend e encaminhando
-                            requisições para a API interna em container Docker, que se comunica
-                            com o PostgreSQL.
+                            Nginx atua como proxy reverso, servindo o frontend e encaminhando requisições para a API containerizada.
                         </p>
                     </div>
                 </div>
 
-                <!-- SEGURANÇA -->
                 <div class="col-12 col-md-6">
                     <div class="content-card h-100 p-3">
                         <h5 class="mb-3">
                             <i class="bi bi-shield-lock"></i> Segurança
                         </h5>
                         <ul class="list-unstyled mb-0">
-                            <li><i class="bi bi-lock-fill"></i> HTTPS com TLS</li>
+                            <li><i class="bi bi-lock-fill"></i> HTTPS</li>
                             <li><i class="bi bi-shield-check"></i> API isolada</li>
                             <li><i class="bi bi-database-lock"></i> Banco protegido</li>
                             <li><i class="bi bi-key"></i> JWT</li>
@@ -140,6 +116,7 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/auth-utils.js"></script>
 <script src="js/layout.js"></script>
+<script src="js/pages/architecture.js"></script>
 
 </body>
 </html>
